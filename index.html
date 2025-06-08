@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="pwKvYalfLxSFwpDlCsan4yS_mEsUdJvUDrI2wKiIHXk" />
+    
+    <meta property="og:title" content="Tommy Website">
+    <meta property="og:description" content="Create stunning AI-generated images with ease using Tommy APP.">
+    <meta property="og:image" content="https://iili.io/3IFLCH7.png">
+    <meta property="og:url" content="https://tommydev27.github.io/tommy.fb-web/">
+    <meta property="og:type" content="website">
+    <meta property="fb:app_id" content="1245016886587008">
+    
+    <title>Tommy Website</title>
+
+    <link rel="stylesheet" href="https://static.xx.fbcdn.net/rsrc.php/v5/y2/l/0,cross/nC2XYYUISfm.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.xx.fbcdn.net/rsrc.php/v5/y8/l/0,cross/Z39OoPuXzgz.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FK1EY26W82"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-FK1EY26W82');
+    </script>
+</head>
+
+  <style>
+    body {
+      font-family: 'Noto Sans', sans-serif;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #main-container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: -5px;
+      margin-top: 0px;
+    }
+
+    h2 {
+      font-size: 12px;
+      color: #7b7b7b;
+      margin-bottom: 10px;
+    }
+
+    #notes-container {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    #notes {
+      width: 100%;
+      height: 50px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 15px;
+      resize: vertical;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+
+    #controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+    }
+
+    #copy-btn {
+      padding: 5px 10px;
+      font-size: 14px;
+      font-weight: bold;
+      background: #4c7eea;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #copy-message {
+      font-size: 14px;
+      color: green;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+      gap: 3px;
+      margin-top: -10px;
+      max-height: 72vh;
+      overflow-y: auto;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      padding: 10px;
+    }
+
+    .char {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      font-size: 24px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      transition: background 0.2s;
+      user-select: none;
+    }
+
+    .char:hover {
+      background: #f0f0f0;
+    }
+
+#loading-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.5); /* transparan putih */
+  backdrop-filter: blur(0px); /* efek blur */
+  -webkit-backdrop-filter: blur(8px); /* untuk dukungan Safari */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  font-family: sans-serif;
+  font-size: 12px;
+  color: #333;
+}
+
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <div>Tunggu sebentar, sedang memuat semua font symbol...</div>
+  </div>
+
+  <div id="main-container">
+    <h1>Global Unicode Explorer</h1>
+    <h2>Tommy Website | Developer</h2>
+
+    <div id="notes-container">
+      <textarea id="notes" placeholder="Klik karakter untuk menambah ke catatan..."></textarea>
+      <div id="controls">
+        <button id="copy-btn">Copy Catatan</button>
+        <span id="copy-message">Berhasil disalin!</span>
+      </div>
+    </div>
+
+    <div id="container"></div>
+  </div>
+
+  <script>
+    const ranges = [
+      0xFF00, 0xFFEF, 0x0080, 0x00FF, 0x0100, 0x017F, 0x0180, 0x024F,
+  0x0250, 0x02AF, 0x02B0, 0x02FF, 0x0300, 0x036F, 0x0370, 0x03FF,
+  0x0400, 0x04FF, 0x0500, 0x052F, 0x0530, 0x058F, 0x0590, 0x05FF,
+  0x0600, 0x06FF, 0x0700, 0x074F, 0x0750, 0x077F, 0x0780, 0x07BF,
+  0x07C0, 0x07FF, 0x0800, 0x083F, 0x0840, 0x085F, 0x0860, 0x086F,
+  0x08A0, 0x08FF, 0x0900, 0x097F, 0x0980, 0x09FF, 0x0A00, 0x0A7F,
+  0x0A80, 0x0AFF, 0x0B00, 0x0B7F, 0x0B80, 0x0BFF, 0x0C00, 0x0C7F,
+  0x0C80, 0x0CFF, 0x0D00, 0x0D7F, 0x0D80, 0x0DFF, 0x0E00, 0x0E7F,
+  0x0E80, 0x0EFF, 0x0F00, 0x0FFF, 0x1000, 0x109F, 0x10A0, 0x10FF,
+  0x1100, 0x11FF, 0x1200, 0x137F, 0x1380, 0x139F, 0x13A0, 0x13FF,
+  0x1400, 0x167F, 0x1680, 0x169F, 0x16A0, 0x16FF, 0x1700, 0x171F,
+  0x1720, 0x173F, 0x1740, 0x175F, 0x1760, 0x177F, 0x1780, 0x17FF,
+  0x1800, 0x18AF, 0x18B0, 0x18FF, 0x1900, 0x194F, 0x1950, 0x197F,
+  0x1980, 0x19DF, 0x19E0, 0x19FF, 0x1A00, 0x1A1F, 0x1A20, 0x1AAF,
+  0x1AB0, 0x1AFF, 0x1B00, 0x1B7F, 0x1B80, 0x1BBF, 0x1BC0, 0x1BFF,
+  0x1C00, 0x1C4F, 0x1C50, 0x1C7F, 0x1C80, 0x1C8F, 0x1C90, 0x1CBF,
+  0x1CC0, 0x1CCF, 0x1CD0, 0x1CFF, 0x1D00, 0x1D7F, 0x1D80, 0x1DBF,
+  0x1DC0, 0x1DFF, 0x1E00, 0x1EFF, 0x1F00, 0x1FFF, 0x2000, 0x206F,
+  0x2070, 0x209F, 0x20A0, 0x20CF, 0x20D0, 0x20FF, 0x2100, 0x214F,
+  0x2150, 0x218F, 0x2190, 0x21FF, 0x2200, 0x22FF, 0x2300, 0x23FF,
+  0x2400, 0x243F, 0x2440, 0x245F, 0x2460, 0x24FF, 0x2500, 0x257F,
+  0x2580, 0x259F, 0x25A0, 0x25FF, 0x2600, 0x26FF, 0x2700, 0x27BF,
+  0x27C0, 0x27EF, 0x27F0, 0x27FF, 0x2800, 0x28FF, 0x2900, 0x297F,
+  0x2980, 0x29FF, 0x2A00, 0x2AFF, 0x2B00, 0x2BFF, 0x2C00, 0x2C5F,
+  0x2C60, 0x2C7F, 0x2C80, 0x2CFF, 0x2D00, 0x2D2F, 0x2D30, 0x2D7F,
+  0x2D80, 0x2DDF, 0x2DE0, 0x2DFF, 0x2E00, 0x2E7F, 0x2E80, 0x2EFF,
+  0x2F00, 0x2FDF, 0x2FF0, 0x2FFF, 0x3000, 0x303F, 0x3040, 0x309F,
+  0x30A0, 0x30FF, 0x3100, 0x312F, 0x3130, 0x318F, 0x3190, 0x319F,
+  0x31A0, 0x31BF, 0x31C0, 0x31EF, 0x31F0, 0x31FF, 0x3200, 0x32FF,
+  0x3300, 0x33FF, 0x3400, 0x4DBF, 0x4DC0, 0x4DFF, 0x4E00, 0x9FFF,
+  0xA000, 0xA48F, 0xA490, 0xA4CF, 0xA4D0, 0xA4FF, 0xA500, 0xA63F,
+  0xA640, 0xA69F, 0xA6A0, 0xA6FF, 0xA700, 0xA71F, 0xA720, 0xA7FF,
+  0xA800, 0xA82F, 0xA830, 0xA83F, 0xA840, 0xA87F, 0xA880, 0xA8DF,
+  0xA8E0, 0xA8FF, 0xA900, 0xA92F, 0xA930, 0xA95F, 0xA960, 0xA97F,
+  0xA980, 0xA9DF, 0xAA00, 0xAA5F, 0xAA60, 0xAA7F, 0xAA80, 0xAADF,
+  0xAAE0, 0xAAFF, 0xAB00, 0xAB2F, 0xAB30, 0xAB6F, 0xAB70, 0xABBF,
+  0xABC0, 0xABFF, 0xAC00, 0xD7AF, 0xD7B0, 0xD7FF, 0xE000, 0xF8FF,
+  0xF900, 0xFAFF, 0xFB00, 0xFB4F, 0xFB50, 0xFDFF, 0xFE00, 0xFE0F,
+  0xFE10, 0xFE1F, 0xFE20, 0xFE2F, 0xFE30, 0xFE4F, 0xFE50, 0xFE6F,
+  0xFE70, 0xFEFF, 0xFF00, 0xFFEF, 0xFFF0, 0xFFFF
+    ];
+
+    const container = document.getElementById("container");
+    const notesTextarea = document.getElementById("notes");
+    const copyBtn = document.getElementById("copy-btn");
+    const copyMsg = document.getElementById("copy-message");
+    const loadingOverlay = document.getElementById("loading-overlay");
+
+    function createChars() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          for (let i = 0; i < ranges.length; i += 2) {
+            const start = ranges[i];
+            const end = ranges[i + 1];
+            for (let code = start; code <= end; code++) {
+              if (code === 0xFEFF) continue; // skip BOM
+              const char = String.fromCodePoint(code);
+              const span = document.createElement("span");
+              span.className = "char";
+              span.textContent = char;
+              span.title = "U+" + code.toString(16).toUpperCase().padStart(4, '0');
+
+              span.addEventListener("click", () => {
+                notesTextarea.value += char;
+              });
+
+              container.appendChild(span);
+            }
+          }
+          resolve();
+        }, 50);
+      });
+    }
+
+    copyBtn.addEventListener("click", () => {
+      if (!notesTextarea.value) return;
+      navigator.clipboard.writeText(notesTextarea.value)
+        .then(() => {
+          copyMsg.style.opacity = "1";
+          setTimeout(() => copyMsg.style.opacity = "0", 1500);
+        })
+        .catch(err => console.error("Copy gagal:", err));
+    });
+
+    async function init() {
+      await createChars();
+      loadingOverlay.style.display = "none";
+    }
+
+    init();
+  </script>
+
+</body>
+</html>

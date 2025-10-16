@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="fb:app_id" content="1245016886587008">
     
-    <title>Tommy Website</title>
+    <title>Tommy Website App</title>
 
     <link rel="stylesheet" href="https://static.xx.fbcdn.net/rsrc.php/v5/y2/l/0,cross/nC2XYYUISfm.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://static.xx.fbcdn.net/rsrc.php/v5/y8/l/0,cross/Z39OoPuXzgz.css" crossorigin="anonymous">
@@ -36,12 +36,16 @@
       font-family: 'Noto Sans', sans-serif;
       margin: 20px;
       display: flex;
+      background:#fff;
       flex-direction: column;
       align-items: center;
     }
 
     #main-container {
       width: 100%;
+          background:rgba(24,119,242,0.08);
+    border-radius:12px;
+    padding:12px;
       max-width: 600px;
     }
 
@@ -84,7 +88,7 @@
       padding: 5px 10px;
       font-size: 14px;
       font-weight: bold;
-      background: #4c7eea;
+      background: #720d0d;
       border: none;
       color: white;
       border-radius: 5px;
@@ -93,7 +97,10 @@
 
     #copy-message {
       font-size: 14px;
-      color: green;
+      color: #fff;
+      background: green;
+      padding: 5px 10px;
+      border-radius:8px;
       opacity: 0;
       transition: opacity 0.3s ease;
     }
@@ -106,7 +113,7 @@
       max-height: 72vh;
       overflow-y: auto;
       border-radius: 10px;
-      border: 2px solid #ccc;
+    border:2px solid #1877f2;
       padding: 10px;
     }
 
@@ -116,14 +123,15 @@
       justify-content: center;
       height: 40px;
       font-size: 24px;
-      border: 1px solid #ddd;
+      border-radius: 8px;
+      border: 0.5px solid #ccc;
       cursor: pointer;
       transition: background 0.2s;
       user-select: none;
     }
 
     .char:hover {
-      background: #f0f0f0;
+      background: #fff;
     }
 
 #loading-overlay {
@@ -144,8 +152,8 @@
 
 
     .spinner {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #3498db;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #03c518;
       border-radius: 50%;
       width: 20px;
       height: 20px;
@@ -168,10 +176,17 @@
 
   <div id="main-container">
     <h1>Global Unicode Explorer</h1>
-    <h2>Tommy Website | Developer</h2>
+       <h2 style="color: #2298ff; padding: 0px; margin-top: 0px; font-size: 14px !important; font-weight: bold;">Tommy website <svg xmlns="http://www.w3.org/2000/svg" fill="#4790fb" width="18" height="18" viewBox="0 0 30 30" style="transform: translateY(5px);">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.201 1.122a1 1 0 0 1 1.332.357l1.307 2.138 2.506.063a1 1 0 0 1 .974.975l.063 2.505 2.139 1.307a1 1 0 0 1 .356 1.332L21.68 12l1.198 2.201a1 1 0 0 1-.357 1.332l-2.138 1.307-.063 2.506a1 1 0 0 1-.974.974l-2.506.063-1.307 2.139a1 1 0 0 1-1.332.356L12 21.68l-2.201 1.198a1 1 0 0 1-1.332-.357L7.16 20.383l-2.506-.063a1 1 0 0 1-.974-.974l-.063-2.506-2.138-1.307a1 1 0 0 1-.357-1.332L2.32 12 1.122 9.799a1 1 0 0 1 .357-1.332L3.617 7.16l.063-2.505a1 1 0 0 1 .974-.975l2.506-.063L8.467 1.48A1 1 0 0 1 9.8 1.122L12 2.32l2.201-1.198zm2.44 9.146a1 1 0 1 0-1.281-1.536l-.067.055a43.003 43.003 0 0 0-4.852 4.74l-1.734-1.734a1 1 0 0 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.475-.067l.056-.067a41 41 0 0 1 5.25-5.25l.066-.055z"></path>
+      </svg>
+      
+  </span>
+
+       
+    </h2>
 
     <div id="notes-container">
-      <textarea id="notes" placeholder="Klik karakter untuk menambah ke catatan..."></textarea>
+      <textarea id="notes" placeholder="Klik karakter muncul disini.."></textarea>
       <div id="controls">
         <button id="copy-btn">Copy Catatan</button>
         <span id="copy-message">Berhasil disalin!</span>
